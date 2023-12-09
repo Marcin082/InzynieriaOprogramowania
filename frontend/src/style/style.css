@@ -1,0 +1,91 @@
+body{
+    background: #030313;
+    margin: 0 10%;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+.app{
+    background: #1b1b44;
+    padding:30px 10px;
+    height:70vh;
+    border-radius: 20px;
+    width:900px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    position:relative;
+}
+.confirmButton{
+    background:transparent;
+    border:none;
+    position:absolute;
+    top:13px;
+    right:30px;
+}
+.inputContainer{
+    position:relative;
+    width:90%;
+}
+.chat{
+    display:flex;
+    justify-content: center;
+    width:90%;
+}
+.input{
+    padding: 0 30px;
+    width:90%;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 15px;
+    border: 2px solid #0a0a14;
+    background-color: #0a0a14;
+    color:white;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+.header{
+color:white;
+font-size: 60px;
+text-align: center;
+font-family: Arial, Helvetica, sans-serif;
+}
+.main{
+display: flex;
+flex-direction: column;
+justify-content: center;
+height:100%;
+}
+.inputWrapper{
+    position: absolute;
+    bottom: 0;
+    width:100%;
+display: flex;
+justify-content: center;
+margin-bottom: 20px;
+}
+.user, .chatbot{
+ font-size: 19px;
+ padding:10px;
+ height:max-content;
+ margin-bottom: 10px;
+ border-radius: 15px;
+ min-width: 100px;
+}
+.chatContent{
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    width:100%;
+   margin-bottom: 50px;
+}
+.user{
+    align-self: flex-end;
+    color:black;
+    background-color: #9494e4;
+}
+.chatbot{
+    align-self: flex-start;
+    color:white;
+    background-color: #020205;
+}
+
