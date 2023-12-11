@@ -10,7 +10,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-@app.post("/chat")
+@app.post("/sendMessage")
 async def chat_with_gpt(request: ChatRequest):
     # Join all the messages into a single string
     chat_input = "\n".join(request.messages)
