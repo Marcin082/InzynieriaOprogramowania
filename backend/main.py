@@ -1,39 +1,26 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import ChatModel
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], 
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+gpt3_chat = ChatModel.ChatModel()
+
+class ChatInput(BaseModel):
+    message: str
+
 @app.post("/sendMessage")
-async def chat_with_gpt(request: ChatRequest):
-    # Join all the messages into a single string
-    chat_input = "\n".join(request.messages)
-
-    # Call the OpenAI API to get the chat response
-    async with httpx.AsyncClient() as client:
-        response = await client.post(
-            "https://api.openai.com/v1/chat/completions",
-            headers={
-                "Authorization": "Bearer YOUR_OPENAI_API_KEY",
-                "Content-Type": "application/json"
-            },
-            json={
-                "messages": [{"role": "system", "content": "You finish user's sentence."}, {"role": "user", "content": chat_input}],
-                "model": "gpt-3.5-turbo",
-                "max_tokens": 50,
-                "temperature": 0.7,
-                "n": 1,
-                "stop": None
-            }
-        )
-
-    # Extract the generated message from the API response
-    chat_output = response.json()["choices"][0]["message"]["content"].strip()
-
-    return ChatResponse(message=chat_output)
+async def chat_with_gpt(request: ChatInput):
+    chat_input = request.message
+    chat_output = await gpt3_chat.generate_response(chat_input)
+    print(chat_input)
+    return chat_output

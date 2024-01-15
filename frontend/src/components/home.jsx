@@ -6,9 +6,11 @@ export const Home = () => {
   const [chatHistory, setChatHistory] = useState([]);
 
   const handleChatbotSubmit = async (message) => {
-    try { 
+    try {
+      setChatHistory([...chatHistory, { role: 'user', content: message }]);
+ 
       const response = await axios.post('http://127.0.0.1:8000/sendMessage', { message });
-      console.log(response)
+      console.log(response);
       const chatbotResponse = response.data;
 
       setChatHistory([...chatHistory, { role: 'user', content: message }, { role: 'chatbot', content: chatbotResponse }]);
@@ -18,8 +20,8 @@ export const Home = () => {
   };
 
   return (
-    <div className='chat'>
-      <div className='chatContent'>
+    <div className='chat' data-testid='home-component'>
+      <div className='chatContent' data-testid='chat-history'>
         {chatHistory.map((message, index) => (
           <div key={index} className={message.role}>
             {message.content}
