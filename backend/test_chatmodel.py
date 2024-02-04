@@ -1,25 +1,33 @@
+import os
+import httpx
 import pytest
-from unittest.mock import AsyncMock, patch
-import ChatModel  # Replace 'your_module' with the actual module name
+from dotenv import load_dotenv
+from unittest.mock import AsyncMock
+
+from ChatModel import ChatModel  # Replace 'your_module' with the actual module name containing ChatModel
+
+load_dotenv()
 
 @pytest.fixture
 def chat_model():
-    return ChatModel.ChatModel()
+    return ChatModel()
 
 @pytest.mark.asyncio
-async def test_generate_response(chat_model):
+async def test_generate_response(chat_model, monkeypatch):
+    # Mock the httpx.AsyncClient.post method to avoid making actual API calls
+    async def mock_post(*args, **kwargs):
+        response_mock = AsyncMock()
+        response_mock.json.return_value = {
+            "choices": [{"message": {"content": "Mocked response"}}]
+        }
+        return response_mock
+
+    monkeypatch.setattr(httpx.AsyncClient, 'post', mock_post)
+
+    # Test case
     user_input = "Test user input"
-    expected_output = "Test chat output"
+    response = await chat_model.generate_response(user_input)
+    
+    assert response == "Mocked response"
 
-    # Mocking the httpx.AsyncClient to avoid making actual API calls
-    mock_response = {"choices": [{"message": {"content": expected_output}}]}
-    mock_client = AsyncMock()
-    mock_client.post.return_value.__aenter__.return_value.json.return_value = mock_response
-
-    with patch("your_module.httpx.AsyncClient", return_value=mock_client):
-        response = await chat_model.generate_response(user_input)
-
-    assert response == expected_output
-
-if __name__ == "__main__":
-    pytest.main()
+# You can add more test cases as needed

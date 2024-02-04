@@ -30,5 +30,7 @@ class ChatModel:
                 }
             )
 
-        chat_output = response.json()["choices"][0]["message"]["content"].strip()
+        response_data = await response.json()
+        chat_output = response_data["choices"][0]["message"]["content"].strip()
         return chat_output
+
