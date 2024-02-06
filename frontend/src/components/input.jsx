@@ -15,7 +15,7 @@ const ChatbotInput = ({ onSubmit }) => {
     if(inputText===''){
       alert("Type your message!")
     }
-    else if(maxInputText==='' || !Number.isInteger(maxInputText)){
+    if(maxInputText===''){
       alert("Correct max tokens!")
     }
     else{

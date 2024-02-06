@@ -23,13 +23,12 @@ class ChatModel:
                         {"role": "system", "content": "You finish user's sentence."},
                         {"role": "user", "content": user_input}
                     ],
-                    "model": "gpt-3.5-turbo",
+                    "model": "gpt-4-1106-preview",
                     "max_tokens": user_max_input,
-                    "temperature": 0.7,
+                    "temperature": 0.7, 
                     "n": 1,
                     "stop": None
                 }
             )
-        print(response)
         chat_output = response.json()["choices"][0]["message"]["content"].strip()
         return chat_output
