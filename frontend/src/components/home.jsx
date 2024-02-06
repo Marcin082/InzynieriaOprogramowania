@@ -6,14 +6,12 @@ export const Home = () => {
   const [chatHistory, setChatHistory] = useState([]);
 
   const handleChatbotSubmit = async (message) => {
+    const {inputText,maxInputText}=message
     try {
-      setChatHistory([...chatHistory, { role: 'user', content: message }]);
- 
-      const response = await axios.post('http://127.0.0.1:8000/sendMessage', { message });
-      console.log(response);
+      setChatHistory([...chatHistory, { role: 'user', content: inputText }]);
+      const response = await axios.post('http://127.0.0.1:8000/sendMessage', { inputText , maxInputText});
       const chatbotResponse = response.data;
-
-      setChatHistory([...chatHistory, { role: 'user', content: message }, { role: 'chatbot', content: chatbotResponse }]);
+      setChatHistory([...chatHistory, { role: 'user', content: inputText }, { role: 'chatbot', content: chatbotResponse }]);
     } catch (error) {
       console.error('Error sending message to chatbot:', error.message);
     }
